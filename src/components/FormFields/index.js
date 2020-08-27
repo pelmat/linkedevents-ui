@@ -326,9 +326,27 @@ class FormFields extends React.Component {
                 </div>
 
                 <FormHeader>
+                    <FormattedMessage id="event-umbrella" className=''/>
+                </FormHeader>
+                <div className="row umbrella-row">
+                    <SideField>
+                        <div className="tip">
+                            <p><FormattedMessage id="editor-tip-umbrella-selection"/></p>
+                            <p><FormattedMessage id="editor-tip-umbrella-selection1"/></p>
+                            <FormattedMessage id="editor-tip-umbrella-selection2"/>
+                        </div>
+                    </SideField>
+                    <div className="col-sm-6">
+                        {!isRegularUser &&
+                                                <UmbrellaSelector editor={this.props.editor} event={event} superEvent={superEvent}/>
+                        }
+                    </div>
+                </div>
+
+                <FormHeader>
                     <FormattedMessage id="event-datetime-fields-header" />
                 </FormHeader>
-                <div className="row date-row">
+                <div className='row date-row'>
                     <SideField>
                         <div className="tip">
                             <p><FormattedMessage id="editor-tip-time-start"/></p>
@@ -337,9 +355,9 @@ class FormFields extends React.Component {
                             <p><FormattedMessage id="editor-tip-time-delete"/></p>
                         </div>
                     </SideField>
-                    <div className="col-sm-6">
-                        <div className="row">
-                            <div className="col-xs-12 col-sm-12">
+                    <div className='col-sm-6'>
+                        <div className='row'>
+                            <div className='col-xs-12 col-sm-12'>
                                 <CustomDateTimeField
                                     id="start_time"
                                     disabled={formType === 'update' && isSuperEvent}
@@ -396,7 +414,6 @@ class FormFields extends React.Component {
                             <FormattedMessage id="event-add-recurring" />
                         </Button>
                     </div>
-
                 </div>
 
                 <FormHeader>
@@ -681,20 +698,6 @@ class FormFields extends React.Component {
                             </div>
                         </div>
                     </div>
-                }
-
-                {!isRegularUser &&
-                    <React.Fragment>
-                        <FormHeader>
-                            <FormattedMessage id="event-umbrella" />
-                        </FormHeader>
-                        <div className='row umbrella-row'>
-                            <SideField className="side-field-umbrella"><div className="tip"><p><FormattedMessage id="editor-tip-umbrella-selection"/></p><p><FormattedMessage id="editor-tip-umbrella-selection1"/></p><FormattedMessage id="editor-tip-umbrella-selection2"/></div></SideField>
-                            <div className='col-sm-6'>
-                                <UmbrellaSelector editor={this.props.editor} event={event} superEvent={superEvent}/>
-                            </div>
-                        </div>
-                    </React.Fragment>
                 }
             </div>
         )
