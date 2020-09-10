@@ -1,21 +1,22 @@
 import './index.scss';
-import React from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {injectIntl, FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 import {connect} from 'react-redux';
 import {HelTextField, MultiLanguageField} from '../HelFormFields';
 import {postImage as postImageAction} from 'src/actions/userImages';
 import constants from 'src/constants';
-import {Button, Modal, ModalHeader, ModalBody, Input, Label} from 'reactstrap';
+import {Button, Modal, ModalHeader, ModalBody, Label, Input} from 'reactstrap';
 import update from 'immutability-helper';
 import {getStringWithLocale} from 'src/utils/locale';
-
+import validationFn from 'src/validation/validationRules'
 
 const {CHARACTER_LIMIT, VALIDATION_RULES} = constants;
 
 class ImageEdit extends React.Component {
     constructor(props) {
         super(props);
+        this.hiddenFileInput = React.createRef();
         this.state = {
             image: {
                 name: {},
@@ -30,12 +31,16 @@ class ImageEdit extends React.Component {
             },
             license: 'event_only',
             imagePermission: false,
+            imageFile: null,
+            thumbnailUrl: null,
+            fileSizeError: false,
+            urlError: false,
         };
-
         this.getCloseButton = this.getCloseButton.bind(this);
         this.handleImagePost = this.handleImagePost.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleLicenseChange = this.handleLicenseChange.bind(this);
+        this.handleInputBlur = this.handleInputBlur.bind(this);
     }
 
     componentDidMount() {
@@ -100,15 +105,15 @@ class ImageEdit extends React.Component {
         };
         if (!this.props.updateExisting) {
 
-            if (this.props.imageFile) {
-                let image64 = await this.imageToBase64(this.props.imageFile);
+            if (this.state.imageFile) {
+                let image64 = await this.imageToBase64(this.state.imageFile);
                 imageToPost = update(imageToPost,{
                     image:{$set: image64},
-                    file_name:{$set: this.props.imageFile.name.split('.')[0]},
+                    file_name:{$set: this.state.imageFile.name.split('.')[0]},
                 });
             } else {
                 imageToPost = update(imageToPost,{
-                    url:{$set: this.props.thumbnailUrl},
+                    url:{$set: this.state.thumbnailUrl},
                 });
             }
             this.props.postImage(imageToPost, this.props.user, null);
@@ -157,7 +162,125 @@ class ImageEdit extends React.Component {
             })
             this.setState({image: localImage});
         }
+    }
 
+    clickHiddenUploadInput() {
+        this.hiddenFileInput.current.click();
+    }
+
+
+    handleExternalImageSave = () => {
+        event.preventDefault();
+        const myData = document.getElementById('upload-external')
+        const formData = new FormData(myData);
+        const MyData = formData.get('externalUrl');
+        this.setState({thumbnailUrl: MyData});
+    }
+
+    handleUpload(event) {
+        const file = event.target.files[0];
+
+        if (file && !this.validateFileSize(file)) {
+            return;
+        }
+
+        const data = new FormData();
+
+        data.append('image', file);
+
+        if (
+            file &&
+            (file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif')
+        ) {
+            this.setState({
+                edit: true,
+                imageFile: file,
+                thumbnailUrl: window.URL.createObjectURL(file),
+            });
+        }
+    }
+
+    validateFileSize = (file) => {
+        const maxSizeInMB = 2;
+
+        const binaryFactor = 1024 * 1024;
+        const decimalFactor = 1000 * 1000;
+
+        const fileSizeInMB = parseInt(file.size) / decimalFactor;
+
+        if (fileSizeInMB > maxSizeInMB) {
+            this.setState({
+                fileSizeError: true,
+            });
+
+            return false;
+        } else {
+            if (this.state.fileSizeError) {
+                this.setState({
+                    fileSizeError: false,
+                });
+            }
+
+            return true;
+        }
+    };
+
+    handleInputBlur() {
+        const myData = document.getElementById('upload-external')
+        const formData = new FormData(myData);
+        const MyData = formData.get('externalUrl');
+        const url = MyData
+        if (!validationFn['isUrl'](undefined, url, undefined)) {
+            this.setState({urlError: true,
+            })
+            return false 
+        } else {
+            return true
+        }
+    }
+    getUploadButtons() {
+        const errorMessage = this.state.urlError ? 'validation-isUrl' : 'uploaded-image-size-error';
+        return (
+            <div className='file-upload--new'>
+                <input
+                    onChange={(e) => this.handleUpload(e)}
+                    style={{display: 'none'}}
+                    type='file'
+                    ref={this.hiddenFileInput}
+                />
+                <Button
+                    className='upload-img'
+                    size='lg'block
+                    variant='contained'
+                    onClick={() => this.clickHiddenUploadInput()}>
+                    <FormattedMessage id='upload-image' />
+                </Button>
+                {(this.state.fileSizeError || this.state.urlError) && (
+                    <Fragment>
+                        <FormattedMessage id={errorMessage}>{txt => <p role="alert" className='image-error'>{txt}</p>}</FormattedMessage>
+                    </Fragment>
+                )}
+                <form onSubmit={this.handleExternalImageSave} id='upload-external'>
+                    <label className='image-url'>
+                        <FormattedMessage id='upload-image-from-url' />
+                        <Input
+                            className='file-upload--external-input'
+                            onChange={this.handleExternalImage}
+                            onBlur={this.handleInputBlur}
+                            name='externalUrl'
+
+                        />
+                    </label>
+                    <Button
+                        className='file-upload--external-button'
+                        type='submit'
+                        variant='contained'
+                    >
+                        <FormattedMessage id='upload-image-from-url-button' />
+                    </Button>
+                </form>
+            </div>
+        )
     }
 
     getCloseButton() {
@@ -231,7 +354,6 @@ class ImageEdit extends React.Component {
                         />
                         <FormattedMessage id={'image-modal-image-license-permission'}>{txt => txt}</FormattedMessage>
                     </Label>
-
                     <Label>
                         <Input
                             addon
@@ -287,13 +409,14 @@ class ImageEdit extends React.Component {
 
 
     render() {
-        const {close, thumbnailUrl} = this.props;
+        const {close, open} = this.props;
+        const thumbnailUrl = this.state.thumbnailUrl || this.props.thumbnailUrl;
         return (
             <React.Fragment>
                 <Modal
                     className='image-edit-dialog'
                     size='xl'
-                    isOpen={true}
+                    isOpen={open}
                     toggle={close}
                 >
                     <ModalHeader tag='h1' close={this.getCloseButton()}>
@@ -301,6 +424,16 @@ class ImageEdit extends React.Component {
                     </ModalHeader>
                     <ModalBody>
                         <div className='row'>
+                            <div className='upload'>
+                                <div className='upload-tip'>
+                                    <FormattedMessage id='uploaded-image-size-tip'/>
+                                    <br/>
+                                    <FormattedMessage id='uploaded-image-size-tip2'/>
+                                    <br/>
+                                    <FormattedMessage id='uploaded-image-size-tip3'/>
+                                </div>
+                                {this.getUploadButtons()}
+                            </div>
                             <div className='col-sm-8 image-edit-dialog--form'>
                                 {this.getFields()}
                                 <div style={{marginTop: '16px'}}>
@@ -336,6 +469,15 @@ class ImageEdit extends React.Component {
     }
 }
 
+ImageEdit.defaultProps = {
+    editor: {
+        values: {},
+    },
+    images: {},
+    user: {},
+    loading: true,
+};
+
 ImageEdit.propTypes = {
     editor: PropTypes.object,
     close: PropTypes.func,
@@ -349,6 +491,7 @@ ImageEdit.propTypes = {
     altText: PropTypes.object,
     defaultPhotographerName: PropTypes.string,
     license: PropTypes.string,
+    open: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
@@ -363,5 +506,3 @@ const mapDispatchToProps = (dispatch) => ({
 
 export {ImageEdit as UnconnectedImageEdit}
 export default injectIntl(connect(mapStateToProps, mapDispatchToProps)(ImageEdit));
-
-

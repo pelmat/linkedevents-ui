@@ -2,13 +2,14 @@ import './index.scss'
 
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import {FormattedMessage, injectIntl} from 'react-intl'
+import {confirmAction} from 'src/actions/app.js';
+import {FormattedMessage} from 'react-intl'
 import {connect} from 'react-redux'
-import {selectImage as selectImageAction} from 'src/actions/userImages'
+import {selectImage as selectImageAction, deleteImage as deleteImageAction} from 'src/actions/userImages'
 import ImageEdit from '../ImageEdit'
 import {getStringWithLocale} from 'src/utils/locale';
 import {Button} from 'reactstrap'
+import {isEmpty} from 'lodash';
 
 class ImageThumbnail extends React.PureComponent {
 
@@ -19,11 +20,31 @@ class ImageThumbnail extends React.PureComponent {
         }
 
         this.selectThis = this.selectThis.bind(this)
+        this.handleDelete = this.handleDelete.bind(this)
     }
 
     selectThis() {
-        this.props.selectImage(this.props.data)
+        if (!this.props.selected) {
+            this.props.selectImage(this.props.data);
+            this.props.close();
+        } else {
+            this.props.selectImage({});
+        }
     }
+
+    
+    handleDelete(event) {
+        let selectedImage = this.props.data;
+        const currentLanguage = this.props.locale;
+        if (!isEmpty(selectedImage)) {
+            this.props.confirmAction('confirm-image-delete', 'warning', 'delete', {
+                action: (e) => this.props.deleteImage(selectedImage, this.props.user),
+                additionalMsg: getStringWithLocale(selectedImage, 'name', currentLanguage),
+                additionalMarkup: ' ',
+            })
+        }
+    }
+
 
     render() {
         let locale = this.props.locale;
@@ -32,9 +53,9 @@ class ImageThumbnail extends React.PureComponent {
         if(this.props.empty) {
             classname += ' no-image'
             return (
-                <div className="col-md-3 col-xs-12" onClick={this.selectThis} id={this.props.data.id}>
+                <div className="col-md-3 col-xs-12" id={this.props.data.id} style={{display: 'none'}}>
                     <div className={classname}>
-                        <div className="thumbnail" style={{backgroundColor: 'lightgray'}} />
+                        <Button onClick={this.selectThis} className="thumbnail" style={{backgroundColor: 'lightgray'}} />
                         <div className="no-image-text"><FormattedMessage id="no-image" /></div>
                     </div>
                 </div>
@@ -53,22 +74,39 @@ class ImageThumbnail extends React.PureComponent {
                 defaultPhotographerName={this.props.data.photographer_name}
                 thumbnailUrl={this.props.url}
                 license={this.props.data.license}
+                open={this.state.edit}
                 close={() => this.setState({edit: false})}
                 updateExisting
             />;
         }
 
         return (
-            <div className="col-md-3 col-xs-12" onClick={this.selectThis} id={this.props.data.id}>
+            <div className="col-md-3 col-xs-12" id={this.props.data.id}>
                 <div className={classname}>
-                    <Button aria-label={getStringWithLocale(this.props.data, 'name', locale)} className="thumbnail" style={bgStyle} />
-                    <div className="name edit-image"
-                        onClick={() => this.setState({edit: true})}
+                    <Button className='thumbnail'
+                        aria-label={this.context.intl.formatMessage({id: `thumbnail-picture-select`}) + '' + getStringWithLocale(this.props.data, 'name', locale)}
+                        style={bgStyle}
+                        onClick={this.selectThis}
                     >
+                    </Button>
+                    <div className='name'>
                         <span className={'image-title'}>
                             {getStringWithLocale(this.props.data, 'name', locale) || <FormattedMessage id="edit-image"/>}
                         </span>
-                        <span className="glyphicon glyphicon-wrench"></span>
+                        <div className='name-buttons'>
+                            <Button className={'btn'}
+                                onClick={() => this.setState({edit: true})}
+                                aria-label={this.context.intl.formatMessage({id: `thumbnail-picture-edit`})}
+                            >
+                                <span className="glyphicon glyphicon-cog" aria-hidden/>
+                            </Button>
+                            <Button className={'btn'}
+                                onClick={this.handleDelete}
+                                aria-label={this.context.intl.formatMessage({id: `thumbnail-picture-delete`})}
+                            >
+                                <span className='glyphicon glyphicon-trash' aria-hidden/>
+                            </Button>
+                        </div>
                     </div>
                 </div>
                 { editModal }
@@ -83,10 +121,21 @@ ImageThumbnail.propTypes = {
     url: PropTypes.string,
     selectImage: PropTypes.func,
     locale: PropTypes.string,
+    user: PropTypes.object,
+    dispatch: PropTypes.func,
+    close: PropTypes.func,
+    confirmAction: PropTypes.func,
+    deleteImage: PropTypes.func,
+    open: PropTypes.bool,
+}
+ImageThumbnail.contextTypes = {
+    intl: PropTypes.object,
 }
 
 const mapDispatchToProps = (dispatch) => ({
     selectImage: (data) => dispatch(selectImageAction(data)),
+    deleteImage: (selectedImage, user) => dispatch(deleteImageAction(selectedImage, user)),
+    confirmAction: (msg, style, actionButtonLabel, data) => dispatch(confirmAction(msg,style,actionButtonLabel,data)),
 })
 
 const mapStateToProps = () => ({})

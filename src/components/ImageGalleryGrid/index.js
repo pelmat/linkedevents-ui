@@ -76,7 +76,7 @@ class ImageGalleryGrid extends React.Component {
         let imgs = this.props.images.items.map((img) => {
             let selected = selected_id == img.id
             return (
-                <ImageThumbnail locale={this.props.locale} selected={selected} key={img.id} url={img.url} data={img} />
+                <ImageThumbnail locale={this.props.locale} selected={selected} close={this.props.close} key={img.id} url={img.url} data={img} />
             )
         });
 
@@ -84,7 +84,7 @@ class ImageGalleryGrid extends React.Component {
         let selected = selected_id == null;
         
         // unsift == prepend
-        imgs.unshift(<ImageThumbnail selected={selected} key={0} empty={true} url="" data={{}}/>)
+        imgs.unshift(<ImageThumbnail selected={selected} close={this.props.close} key={0} empty={true} url="" data={{}}/>)
 
         return (
             <div className='image-grid container-fluid'>
@@ -105,6 +105,7 @@ ImageGalleryGrid.propTypes = {
     editor: PropTypes.object,
     fetchUserImages: PropTypes.func,
     locale: PropTypes.string,
+    close: PropTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) => ({

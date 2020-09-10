@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react'
 import {FormattedMessage} from 'react-intl'
 import CopyToClipboard from 'react-copy-to-clipboard'
-import ImagePickerForm from '../ImagePicker'
+import ImagePickerForm, {PreviewImage} from '../ImagePicker'
 import {
     MultiLanguageField,
     HelTextField,
@@ -29,6 +29,7 @@ import HelVideoFields from '../HelFormFields/HelVideoFields/HelVideoFields'
 import CustomDateTimeField from '../CustomFormFields/CustomDateTimeField';
 import EventMap from '../Map/EventMap';
 import classNames from 'classnames';
+import ImageButtons from '../ImageButtons';
 
 // Removed material-ui/icons because it was no longer used.
 //Added isOpen for RecurringEvents modal
@@ -203,7 +204,7 @@ class FormFields extends React.Component {
             .map(id => ({label: organizationData[id].name, value: id}))
 
         const selectedPublisher = publisherOptions.find(option => option.value === values['organization']) || {};
-
+        const backgroundImage = get(this.props.editor.values, 'image.url', '');
         const position = this.props.editor.values.location ? this.props.editor.values.location.position : null;
 
         return (
@@ -232,15 +233,6 @@ class FormFields extends React.Component {
                         <div className="tip">
                             <p><FormattedMessage id="editor-tip-event-description"/></p>
                             <FormattedMessage id="editor-tip-event-description1"/>
-                        </div>
-                        <div className='ImagePickerField'>
-                            <label htmlFor='image'>
-                                <h3 className='imagePicker-heading'>
-                                    <FormattedMessage id="event-image"/>
-                                </h3>
-                            </label>
-                            <input id='image' type='hidden'/>
-                            <ImagePickerForm label="image-preview" name="image" loading={this.props.loading} />
                         </div>
                     </SideField>
                     <div className="col-sm-6">
@@ -308,6 +300,26 @@ class FormFields extends React.Component {
                             selectedOption={selectedPublisher}
                             onChange={this.handleOrganizationChange}
                         />
+                    </div>
+                </div>
+                <FormHeader>
+                    <FormattedMessage id="event-image-title"/>
+                </FormHeader>
+                <div className="row image-row">
+                    <SideField>
+                        <div className='image-picker'>
+                            <PreviewImage
+                                backgroundImage={backgroundImage}
+                            />
+                        </div>
+                    </SideField>
+                    <div className='col-sm-6'>
+                        <div className='row'>
+                            <div className='col-xs-12 col-sm-12'>
+                                <input id='image' type='hidden'/>
+                                <ImageButtons />
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -716,7 +728,9 @@ FormFields.propTypes = {
     setDirtyState: PropTypes.func,
     action: PropTypes.oneOf(['update', 'create']),
     loading: PropTypes.bool,
+    backgroundImage: PropTypes.string,
 }
+
 
 FormFields.contextTypes = {
     intl: PropTypes.object,
