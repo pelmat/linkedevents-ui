@@ -140,4 +140,5 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = () => ({})
 // TODO: if leave null, react-intl not refresh. Replace this with better React context
+export {ImageThumbnail as UnconnectedImageThumbnail}
 export default connect(mapStateToProps, mapDispatchToProps)(ImageThumbnail)

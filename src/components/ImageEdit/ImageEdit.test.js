@@ -144,6 +144,7 @@ describe('ImageEdit', () => {
                 test('calls postImage with correct props when !updateExisting', async () => {
                     const wrapper = getWrapper({postImage, close, imageFile});
                     jest.spyOn(wrapper.instance(),'imageToBase64');
+                    wrapper.setState({imageFile: defaultImageBlob});
                     wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt'});
                     wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName'});
                     wrapper.instance().handleChange({target:{id:'photographerName'}}, 'Photographer Phil');
@@ -161,6 +162,34 @@ describe('ImageEdit', () => {
                         image: expectedImage,
                         license: 'event_only',
                         photographer_name: 'Photographer Phil',
+                    };
+
+                    expect(wrapper.instance().imageToBase64).toHaveBeenCalled();
+                    expect(postImage).toHaveBeenCalledWith(imageToPost,defaultUser,null)
+                    expect(close).toHaveBeenCalled();
+
+                });
+
+                test('calls postImage with correct props when !updateExisting via URL', async () => {
+                    const wrapper = getWrapper({postImage, close});
+                    jest.spyOn(wrapper.instance(),'imageToBase64');
+                    wrapper.instance().handleChange({target:{id:'altText'}}, {fi:'finnishAlt'});
+                    wrapper.instance().handleChange({target:{id:'name'}}, {fi:'finnishName'});
+                    wrapper.instance().handleChange({target:{id:'photographerName'}}, 'Photographer Phil');
+                    wrapper.setState({thumbnailUrl: 'www.google.com'})
+                    const expectedImage = await wrapper.instance().imageToBase64(defaultImageBlob);
+                    await wrapper.instance().handleImagePost();
+
+                    const imageToPost = {
+                        alt_text: {
+                            fi: 'finnishAlt',
+                        },
+                        name: {
+                            fi: 'finnishName',
+                        },
+                        license: 'event_only',
+                        photographer_name: 'Photographer Phil',
+                        url: 'www.google.com',
                     };
 
                     expect(wrapper.instance().imageToBase64).toHaveBeenCalled();
@@ -194,6 +223,34 @@ describe('ImageEdit', () => {
                     expect(close).toHaveBeenCalled();
 
                 });
+            });
+        });
+
+        describe('validateFileSize', () => {
+            test('if fileSize is over max size', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                instance.validateFileSize({size: 2019 * 2020});
+                expect(wrapper.state('fileSizeError')).toBe(true)
+            });
+
+            test('fileSize is less than max size and fileSizeError is false', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                const returnValue = instance.validateFileSize({size: 999 * 999});
+                expect(wrapper.state('fileSizeError')).toBe(false);
+                expect(returnValue).toBe(true);
+            });
+
+            test('fileSize is less than max size and fileSizeError is true', () => {
+                const wrapper = getWrapper();
+                const instance = wrapper.instance();
+                let returnValue = instance.validateFileSize({size: 1999 * 1999});
+                expect(wrapper.state('fileSizeError')).toBe(true);
+                expect(returnValue).toBe(false);
+                returnValue = instance.validateFileSize({size: 999 * 999});
+                expect(wrapper.state('fileSizeError')).toBe(false);
+                expect(returnValue).toBe(true);
             });
         });
 
@@ -325,19 +382,20 @@ describe('ImageEdit', () => {
                 expect(element.prop('defaultValue')).toEqual('Phil Photo');
             });
 
-            test('three Input components with correct parameters', () => {
+            test('four Input components with correct parameters', () => {
                 const wrapper = getWrapper();
                 const elements = wrapper.find(Input);
 
-                expect(elements).toHaveLength(3);
-                expect(elements.at(0).prop('type')).toBe('checkbox');
-                expect(elements.at(1).prop('type')).toBe('radio');
+                expect(elements).toHaveLength(4);
+                expect(elements.at(0).prop('type')).toBe('text');
+                expect(elements.at(1).prop('type')).toBe('checkbox');
                 expect(elements.at(2).prop('type')).toBe('radio');
-                expect(elements.at(0).prop('name')).toBe('permission');
-                expect(elements.at(1).prop('name')).toBe('license_type');
+                expect(elements.at(3).prop('type')).toBe('radio');
+                expect(elements.at(1).prop('name')).toBe('permission');
                 expect(elements.at(2).prop('name')).toBe('license_type');
-                expect(elements.at(1).prop('value')).toBe('event_only');
-                expect(elements.at(2).prop('value')).toBe('cc_by');
+                expect(elements.at(3).prop('name')).toBe('license_type');
+                expect(elements.at(2).prop('value')).toBe('event_only');
+                expect(elements.at(3).prop('value')).toBe('cc_by');
             });
 
 
