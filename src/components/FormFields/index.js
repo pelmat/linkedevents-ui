@@ -316,7 +316,6 @@ class FormFields extends React.Component {
                     <div className='col-sm-6'>
                         <div className='row'>
                             <div className='col-xs-12 col-sm-12'>
-                                <input id='image' type='hidden'/>
                                 <ImageButtons />
                             </div>
                         </div>
