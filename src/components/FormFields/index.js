@@ -383,7 +383,7 @@ class FormFields extends React.Component {
                         <Button
                             size='lg'block
                             variant="contained"
-                            disabled={formType === 'update' || isSuperEventDisable}
+
                             onClick={() => this.addNewEventDialog()}>
 
                             <span aria-hidden='true' className="glyphicon glyphicon-plus"/>
@@ -393,7 +393,7 @@ class FormFields extends React.Component {
                         <Button
                             size='lg' block
                             variant="contained"
-                            disabled={formType === 'update' || isSuperEventDisable}
+
                             onClick={() => this.showRecurringEventDialog()}>
 
                             <span aria-hidden='true' className="glyphicon glyphicon-refresh"/>
