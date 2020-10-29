@@ -11,7 +11,8 @@ const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl}) => (
             <CustomDateTimeField
                 id={'start_time' + eventKey}
                 name="start_time"
-                label={<FormattedMessage  id="event-starting-datetime" />}
+                labelDate='Tapahtuma alkaa (pp.kk.vvvv)'
+                labelTime='Alkuaika (tt.mm)'
                 defaultValue={event.start_time}
                 eventKey={eventKey}
                 validationErrors={errors['start_time']}
@@ -21,7 +22,8 @@ const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl}) => (
                 disablePast
                 id={'end_time' + eventKey}
                 name="end_time"
-                label={<FormattedMessage  id="event-ending-datetime" />}
+                labelDate='Tapahtuma päättyy (pp.kk.vvvv)'
+                labelTime='Loppuaika (tt.mm)'
                 defaultValue={event.end_time}
                 eventKey={eventKey}
                 validationErrors={errors['end_time']}

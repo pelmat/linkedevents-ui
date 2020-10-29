@@ -125,7 +125,11 @@
 
     "event-datetime-fields-header": "Tapahtuman ajankohdat",
     "event-starting-datetime": "Tapahtuma alkaa (pp.kk.vvvv tt.mm)",
+    "event-starting-datelabel": "Tapahtuma alkaa (pp.kk.vvvv)",
+    "event-starting-timelabel": "Alkuaika (tt.mm)",
     "event-ending-datetime": "Tapahtuma päättyy (pp.kk.vvvv tt.mm)",
+    "event-ending-datelabel": "Tapahtuma päättyy (pp.kk.vvvv)",
+    "event-ending-timelabel": "Loppuaika (tt.mm)",
     "event-add-new-occasion": "Lisää uusi ajankohta",
     "event-add-recurring": "Toistuva tapahtuma",
     "event-delete-recurring": "Poista tämä tapahtumakerta",

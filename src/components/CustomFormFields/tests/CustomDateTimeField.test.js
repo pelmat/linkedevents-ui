@@ -16,12 +16,13 @@ describe('CustomDateTimeField', () => {
         eventKey: 'test-event-key',
         defaultValue: moment('2020-03-25').toString(),
         setDirtyState: () => {},
-        label: 'test-label',
+        label: ['test-label-date', 'test-label-time'],
         validationErrors: {error: 'test-error'},
         disabled: false,
         disablePast: false,
         minDate: moment('2020-03-23'),
         maxDate: moment('2020-04-23'),
+        type: ['date', 'time'],
     }
 
     function getWrapper(props) {
@@ -31,18 +32,20 @@ describe('CustomDateTimeField', () => {
     describe('renders', () => {
         test('CustomDatePicker with correct props', () => {
             const datePicker = getWrapper().find(CustomDatePicker)
-            expect(datePicker).toHaveLength(1)
-            expect(datePicker.prop('id')).toBe(defaultProps.id)
-            expect(datePicker.prop('type')).toBe('date-time')
-            expect(datePicker.prop('name')).toBe(defaultProps.name)
-            expect(datePicker.prop('label')).toBe(defaultProps.label)
-            expect(datePicker.prop('disabled')).toBe(defaultProps.disabled)
-            expect(datePicker.prop('disablePast')).toBe(defaultProps.disablePast)
-            expect(datePicker.prop('defaultValue')).toBe(defaultProps.defaultValue)
-            expect(datePicker.prop('onChange')).toBeDefined()
-            expect(datePicker.prop('minDate')).toBe(defaultProps.minDate)
-            expect(datePicker.prop('maxDate')).toBe(defaultProps.maxDate)
-            expect(datePicker.prop('required')).toBe(false)
+            expect(datePicker).toHaveLength(2)
+            datePicker.forEach((element, index) => {
+                expect(element.prop('id')).toBe(defaultProps.id)
+                expect(element.prop('type')).toBe(defaultProps.type[index])
+                expect(element.prop('label')).toBe(defaultProps.label[index])
+                expect(element.prop('name')).toBe(defaultProps.name)
+                expect(element.prop('disabled')).toBe(defaultProps.disabled)
+                expect(element.prop('disablePast')).toBe(defaultProps.disablePast)
+                expect(element.prop('defaultValue')).toBe(defaultProps.defaultValue)
+                expect(element.prop('onChange')).toBeDefined()
+                expect(element.prop('minDate')).toBe(defaultProps.minDate)
+                expect(element.prop('maxDate')).toBe(defaultProps.maxDate)
+                expect(element.prop('required')).toBe(false)
+            });
         })
 
         test('ValidationPopover with correct props', () => {
