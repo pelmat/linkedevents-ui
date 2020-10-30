@@ -365,6 +365,7 @@ class FormFields extends React.Component {
                                     labelTime={<FormattedMessage  id="event-ending-timelabel" />}
                                     setDirtyState={this.props.setDirtyState}
                                     minDate={values['start_time'] ? moment(values['start_time']) : undefined}
+                                    required={true}
                                 />
                                 {/*
                                 <CustomDateTimeField

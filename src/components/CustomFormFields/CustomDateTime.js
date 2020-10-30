@@ -3,7 +3,7 @@ import DatePicker, {registerLocale} from 'react-datepicker'
 import PropTypes from 'prop-types'
 import {FormGroup, Label, Input, Button} from 'reactstrap'
 import 'react-datepicker/dist/react-datepicker.css'
-import './CustomDatePicker.scss'
+import './CustomDateTime.scss'
 import DatePickerButton from './DatePickerButton'
 import moment from 'moment'
 import {FormattedMessage} from 'react-intl'
@@ -23,8 +23,8 @@ class CustomDateTime extends React.Component {
         registerLocale('sv', sv)
 
         this.state = {
-            dateInputValue: defaultValue ? this.convertDateToLocaleString(defaultValue, 'date') : '',
-            timeInputValue: defaultValue ? this.convertDateToLocaleString(defaultValue, 'time') : '',
+            dateInputValue: defaultValue ? convertDateToLocaleString(defaultValue, 'date') : '',
+            timeInputValue: defaultValue ? convertDateToLocaleString(defaultValue, 'time') : '',
         }
 
         this.handleInputChangeDate = this.handleInputChangeDate.bind(this)
@@ -124,6 +124,18 @@ class CustomDateTime extends React.Component {
             return new Date(roundDateToCorrectUnit(moment()))
     }
 
+    componentDidUpdate(prevProps) {
+        // Update validation if min or max date changes and state.inputValue is not empty
+        const {minDate, maxDate} = this.props
+        const {dateInputValue, timeInputValue} = this.state
+        if (minDate !== prevProps.minDate || maxDate !== prevProps.maxDate) {
+            if(dateInputValue && timeInputValue) {
+                const datetimeString = `${this.state.dateInputValue} ${this.state.timeInputValue}`
+                this.validateDate(moment(datetimeString, getDateFormat('date-time'), true), minDate)
+            }
+        }
+    }
+
 
     render() {
         const {labelDate, labelTime, id, defaultValue, minDate, maxDate, disabled, required, intl} = this.props
@@ -134,7 +146,7 @@ class CustomDateTime extends React.Component {
         const timeFieldId = `${id}-time-field`
 
         return (
-            <div className="custom-date-input">
+            <div className="custom-date-time-input">
                 <FormGroup>
                     <Label for={dateFieldId}>{getCorrectInputLabel(labelDate)}{required ? '*' : ''}</Label>
                     <div className="input-and-button">

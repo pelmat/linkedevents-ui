@@ -6,7 +6,7 @@ import {setData as setDataAction, updateSubEvent as updateSubEventAction} from '
 import ValidationPopover from 'src/components/ValidationPopover'
 import {isNil} from 'lodash'
 import CustomDatePicker from './CustomDatePicker';
-import './CustomDateTimeField.scss'
+import './CustomDateTime.scss'
 
 const onChange = (
     value,
