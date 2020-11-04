@@ -3,14 +3,14 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {FormattedMessage} from 'react-intl'
 import PropTypes from 'prop-types'
-import {login as loginAction} from 'src/actions/user.js'
 import {EventQueryParams, fetchEvents} from '../../utils/events'
-import {isNull, get, filter} from 'lodash'
+import {isNull, get} from 'lodash'
 import constants from '../../constants'
 import {getSortDirection} from '../../utils/table'
 import EventTable from '../../components/EventTable/EventTable'
 import {getOrganizationMembershipIds} from '../../utils/user'
-
+import userManager from '../../utils/userManager';
+import {Helmet} from 'react-helmet';
 import {Label, Input} from 'reactstrap';
 
 const {USER_TYPE, TABLE_DATA_SHAPE, PUBLICATION_STATUS} = constants
@@ -249,8 +249,17 @@ export class EventListing extends React.Component {
         return queryParams
     }
     
+    handleLoginClick = () => {
+        userManager.signinRedirect({
+            data: {
+                redirectUrl: window.location.pathname,
+            },
+        });
+    };
+
     render() {
         const {user} = this.props;
+        const {intl} = this.context;
         const {
             showCreatedByUser,
             tableData: {
@@ -264,21 +273,25 @@ export class EventListing extends React.Component {
             },
         } = this.state;
         const header = <h1><FormattedMessage id={`${appSettings.ui_mode}-management`}/></h1>
+        // Defined React Helmet title with intl
+        const pageTitle = `Linkedevents - ${intl.formatMessage({id: `${appSettings.ui_mode}-management`})}`
         const isRegularUser = get(user, 'userType') === USER_TYPE.REGULAR
 
         if (!user) {
             return (
                 <div className="container">
+                    <Helmet title={pageTitle}/>
                     {header}
                     <p>
-                        <a style={{cursor: 'pointer'}} onClick={() => this.props.login()}>
+                        <a className='underline' rel='external' style={{cursor: 'pointer'}} onClick={this.handleLoginClick}>
                             <FormattedMessage id="login" />
-                        </a>
-                        {' '}<FormattedMessage id="events-management-prompt" /></p>
+                        </a>{' '}
+                        <FormattedMessage id="events-management-prompt" /></p>
                 </div>);
         }
         return (
             <div className="container">
+                <Helmet title={pageTitle} />
                 {header}
                 <p>
                     {isRegularUser
@@ -372,17 +385,16 @@ export class EventListing extends React.Component {
 
 EventListing.propTypes = {
     user: PropTypes.object,
-    login: PropTypes.func,
     showCreatedByUser: PropTypes.bool,
     tableData: TABLE_DATA_SHAPE,
+}
+
+EventListing.contextTypes = {
+    intl: PropTypes.object,
 }
 
 const mapStateToProps = (state) => ({
     user: state.user,
 })
 
-const mapDispatchToProps = (dispatch) => ({
-    login: () => dispatch(loginAction()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(EventListing);
+export default connect(mapStateToProps)(EventListing);
