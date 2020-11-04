@@ -25,8 +25,8 @@ import OrganizationSelector from '../HelFormFields/OrganizationSelector';
 import UmbrellaSelector from '../HelFormFields/UmbrellaSelector/UmbrellaSelector'
 import moment from 'moment'
 import HelVideoFields from '../HelFormFields/HelVideoFields/HelVideoFields'
-import CustomDateTimeField from '../CustomFormFields/CustomDateTimeField';
-import CustomDateTime from '../CustomFormFields/CustomDateTime'
+import CustomDateTime from '../CustomFormFields/Dateinputs/CustomDateTime'
+import CustomDateTimeField from '../CustomFormFields/Dateinputs/CustomDateTimeField'
 import EventMap from '../Map/EventMap';
 import classNames from 'classnames';
 import ImageGallery from '../ImageGallery/ImageGallery';
@@ -333,8 +333,7 @@ class FormFields extends React.Component {
                 <div className='row date-row'>
                     <SideField>
                         <div className="tip">
-                            <p><FormattedMessage id="editor-tip-time-start"/></p>
-                            <p><FormattedMessage id="editor-tip-time-end"/></p>
+                            <p><FormattedMessage id="editor-tip-time-start-end"/></p>
                             <p><FormattedMessage id="editor-tip-time-multi"/></p>
                             <p><FormattedMessage id="editor-tip-time-delete"/></p>
                         </div>
@@ -367,35 +366,6 @@ class FormFields extends React.Component {
                                     minDate={values['start_time'] ? moment(values['start_time']) : undefined}
                                     required={true}
                                 />
-                                {/*
-                                <CustomDateTimeField
-                                    type='date-time'
-                                    id="start_time"
-                                    disabled={formType === 'update' && isSuperEvent}
-                                    validationErrors={validationErrors['start_time']}
-                                    defaultValue={values['start_time']}
-                                    name="start_time"
-                                    labelDate={<FormattedMessage  id="event-starting-datelabel" />}
-                                    labelTime={<FormattedMessage  id="event-starting-timelabel" />}
-                                    setDirtyState={this.props.setDirtyState}
-                                    maxDate={values['end_time'] ? moment(values['end_time']) : undefined}
-                                    required={true}
-                                />
-                            </div>
-                            <div className="col-xs-12 col-sm-12">
-                                <CustomDateTimeField
-                                    id="end_time"
-                                    disablePast
-                                    disabled={formType === 'update' && isSuperEvent}
-                                    validationErrors={validationErrors['end_time']}
-                                    defaultValue={values['end_time']}
-                                    name="end_time"
-                                    labelDate={<FormattedMessage  id="event-ending-datelabel" />}
-                                    labelTime={<FormattedMessage  id="event-ending-timelabel" />}
-                                    setDirtyState={this.props.setDirtyState}
-                                    minDate={values['start_time'] ? moment(values['start_time']) : undefined}
-                                />
-                                */}
                             </div>
                         </div>
                         <div className={'new-events ' + (this.state.showNewEvents ? 'show' : 'hidden')}>

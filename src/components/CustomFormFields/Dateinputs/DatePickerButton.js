@@ -24,5 +24,5 @@ DatePickerButton.propTypes = {
     type: PropTypes.string,
     intl: PropTypes.object,
 }
-
+export {DatePickerButton as UnconnectedDatePickerButton}
 export default injectIntl(DatePickerButton)

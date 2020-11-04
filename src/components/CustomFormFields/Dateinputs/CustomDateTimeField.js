@@ -1,3 +1,4 @@
+  
 import PropTypes from 'prop-types';
 import React, {useRef} from 'react'
 import moment from 'moment-timezone'
@@ -6,7 +7,6 @@ import {setData as setDataAction, updateSubEvent as updateSubEventAction} from '
 import ValidationPopover from 'src/components/ValidationPopover'
 import {isNil} from 'lodash'
 import CustomDatePicker from './CustomDatePicker';
-import './CustomDateTime.scss'
 
 const onChange = (
     value,
@@ -38,8 +38,7 @@ const CustomDateTimeField = ({
     defaultValue,
     disabled,
     disablePast,
-    labelDate,
-    labelTime,
+    label,
     validationErrors,
     setData,
     updateSubEvent,
@@ -51,40 +50,25 @@ const CustomDateTimeField = ({
     const containerRef = useRef(null)
 
     return (
-        <div className='event-pickers'>
-            <div className='event-pickers-date' ref={containerRef}>
-                <CustomDatePicker
-                    id={id}
-                    type={'date'}
-                    name={name}
-                    label={labelDate}
-                    disabled={disabled}
-                    disablePast={disablePast}
-                    defaultValue={defaultValue}
-                    onChange={value => onChange(value, name, eventKey, updateSubEvent, setData, setDirtyState)}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                    required={required}
-                />
-                <ValidationPopover
-                    anchor={containerRef.current}
-                    placement={'right'}
-                    validationErrors={validationErrors}
-                />
-            </div>
-            <div className='event-pickers-time'>
-                <CustomDatePicker
-                    id={id}
-                    type={'time'}
-                    name={name}
-                    label={labelTime}
-                    disabled={disabled}
-                    defaultValue={defaultValue}
-                    onChange={value => onChange(value, name, eventKey, updateSubEvent, setData, setDirtyState)}
-                    minDate={minDate}
-                    maxDate={maxDate}
-                />
-            </div>
+        <div ref={containerRef}>
+            <CustomDatePicker
+                id={id}
+                type={'date-time'}
+                name={name}
+                label={label}
+                disabled={disabled}
+                disablePast={disablePast}
+                defaultValue={defaultValue}
+                onChange={value => onChange(value, name, eventKey, updateSubEvent, setData, setDirtyState)}
+                minDate={minDate}
+                maxDate={maxDate}
+                required={required}
+            />
+            <ValidationPopover
+                anchor={containerRef.current}
+                placement={'right'}
+                validationErrors={validationErrors}
+            />
         </div>
     )
 }
@@ -97,8 +81,7 @@ CustomDateTimeField.propTypes = {
     eventKey: PropTypes.string,
     defaultValue: PropTypes.string,
     setDirtyState: PropTypes.func,
-    labelDate: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-    labelTime: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
     validationErrors: PropTypes.oneOfType([
         PropTypes.array,
         PropTypes.object,

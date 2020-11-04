@@ -1,7 +1,7 @@
 import './NewEvent.scss'
 import PropTypes from 'prop-types';
 import React from 'react'
-import CustomDateTime from '../CustomFormFields/CustomDateTime';
+import CustomDateTime from '../CustomFormFields/Dateinputs/CustomDateTime';
 import {connect} from 'react-redux'
 import {deleteSubEvent as deleteSubEventAction} from 'src/actions/editor'
 import {FormattedMessage, injectIntl} from 'react-intl';

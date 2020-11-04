@@ -9,7 +9,7 @@ import {setEventData, sortSubEvents} from 'src/actions/editor'
 import validationRules from 'src/validation/validationRules'
 import ValidationPopover from 'src/components/ValidationPopover'
 import constants from '../../constants'
-import CustomDatePicker from '../CustomFormFields/CustomDatePicker'
+import CustomDatePicker from '../CustomFormFields/Dateinputs/CustomDatePicker'
 import {
     FormattedMessage,
     injectIntl,
