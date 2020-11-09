@@ -1,27 +1,29 @@
 import './NewEvent.scss'
 import PropTypes from 'prop-types';
 import React from 'react'
-import CustomDateTimeField from '../CustomFormFields/CustomDateTimeField';
+import CustomDateTime from '../CustomFormFields/Dateinputs/CustomDateTime';
 import {connect} from 'react-redux'
 import {deleteSubEvent as deleteSubEventAction} from 'src/actions/editor'
 import {FormattedMessage, injectIntl} from 'react-intl';
 const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl}) => (
     <div className="new-sub-event">
         <div className="new-sub-event--inputs">
-            <CustomDateTimeField
+            <CustomDateTime
                 id={'start_time' + eventKey}
                 name="start_time"
-                label={<FormattedMessage  id="event-starting-datetime" />}
+                labelDate={<FormattedMessage  id="event-starting-datelabel" />}
+                labelTime={<FormattedMessage  id="event-starting-timelabel" />}
                 defaultValue={event.start_time}
                 eventKey={eventKey}
                 validationErrors={errors['start_time']}
                 required={true}
             />
-            <CustomDateTimeField
+            <CustomDateTime
                 disablePast
                 id={'end_time' + eventKey}
                 name="end_time"
-                label={<FormattedMessage  id="event-ending-datetime" />}
+                labelDate={<FormattedMessage  id="event-ending-datelabel" />}
+                labelTime={<FormattedMessage  id="event-ending-timelabel" />}
                 defaultValue={event.end_time}
                 eventKey={eventKey}
                 validationErrors={errors['end_time']}
@@ -36,6 +38,10 @@ const NewEvent = ({event, eventKey, errors, deleteSubEvent, intl}) => (
         </button>
     </div>
 )
+
+CustomDateTime.defaultProps = {
+    setDirtyState: () => {},
+}
 
 NewEvent.propTypes = {
     event: PropTypes.object.isRequired,

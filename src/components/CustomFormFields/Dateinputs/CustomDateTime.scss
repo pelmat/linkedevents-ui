@@ -1,0 +1,45 @@
+.date-input-error {
+    color: #B30000;
+}
+
+.custom-date-time-input {
+    justify-content: space-between;
+    display: flex;
+    @media only screen and (max-width: 1200px) {
+        display: block;
+}
+
+    .input-and-button{
+        display: flex;
+    }
+
+    label {
+        font-size: 1rem;
+        padding-top: 2vh;
+    }
+    input {
+        border: none;
+        border-bottom: solid 2px;
+        background: none;
+        border-radius: 0;
+        &:hover,
+        &:focus,
+        &:active {
+            box-shadow: none;
+            border-bottom: solid 3px;
+            border-color: #0072c6;
+            background: none;
+        }
+    }
+
+    &__button {
+        color: #fff;
+        background-color:#0072c6;
+        border-radius: 2px;
+
+        &.glyphicon, .glyphicon-calendar {
+            font-size: inherit;
+            margin: 4px 0px;
+        }
+    }
+}

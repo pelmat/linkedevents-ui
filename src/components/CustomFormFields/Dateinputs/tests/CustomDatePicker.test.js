@@ -1,6 +1,7 @@
 import React from 'react'
 import {shallow, mount} from 'enzyme';
-import CustomDatePicker, {DatePickerButton} from '../CustomDatePicker';
+import CustomDatePicker from '../CustomDatePicker';
+import DatePickerButton from '../DatePickerButton'
 import {IntlProvider, FormattedMessage} from 'react-intl';
 import mapValues from 'lodash/mapValues';
 import fiMessages from 'src/i18n/fi.json';
@@ -108,7 +109,7 @@ describe('CustomDatePicker', () => {
                 expect(datePicker.prop('disabled')).toBe(defaultProps.disabled)
                 expect(datePicker.prop('openToDate')).toBeDefined()
                 expect(datePicker.prop('onChange')).toBe(instance.handleDatePickerChange)
-                expect(datePicker.prop('customInput')).toEqual(<DatePickerButton disabled={defaultProps.disabled}/>)
+                expect(datePicker.prop('customInput')).toEqual(<DatePickerButton disabled={defaultProps.disabled} type={defaultProps.type}/>)
                 expect(datePicker.prop('minDate')).toBe(instance.getCorrectMinDate(defaultProps.minDate))
                 expect(datePicker.prop('maxDate')).toBe(undefined)
                 expect(datePicker.prop('locale')).toBe(instance.context.intl.locale)
@@ -428,18 +429,3 @@ describe('CustomDatePicker', () => {
     })
 })
 
-describe('DatePickerButton', () => {
-    test('renders with correct props', () => {
-        const defaultProps = {
-            onClick: () => {},
-            disabled: false,
-        }
-        const wrapper = shallow(<DatePickerButton {...defaultProps} />, {context: {intl}})
-        expect(wrapper.prop('disabled')).toBe(defaultProps.disabled)
-        expect(wrapper.prop('aria-hidden')).toBe(true)
-        expect(wrapper.prop('aria-label')).toBe(intl.formatMessage({id: 'date-picker-button-label'}))
-        expect(wrapper.prop('tabIndex')).toBe(-1)
-        expect(wrapper.prop('onClick')).toBe(defaultProps.onClick)
-        expect(wrapper.prop('className')).toBe('glyphicon glyphicon-calendar custom-date-input__button')
-    })
-})

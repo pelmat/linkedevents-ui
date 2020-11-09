@@ -8,6 +8,7 @@ import moment from 'moment'
 import {FormattedMessage} from 'react-intl'
 import fi from 'date-fns/locale/fi'
 import sv from 'date-fns/locale/sv'
+import DatePickerButton from './DatePickerButton'
 
 
 class CustomDatePicker extends React.Component {
@@ -199,7 +200,7 @@ class CustomDatePicker extends React.Component {
                             disabled={disabled}
                             openToDate={this.getDatePickerOpenDate(defaultValue, minDate)}
                             onChange={this.handleDatePickerChange}
-                            customInput={<DatePickerButton disabled={disabled}/>}
+                            customInput={<DatePickerButton type={type} disabled={disabled} />}
                             minDate={this.getCorrectMinDate(minDate)}
                             maxDate={maxDate && new Date(maxDate)}
                             locale={this.context.intl.locale}
@@ -252,29 +253,5 @@ CustomDatePicker.propTypes = {
     required: PropTypes.bool,
 };
 
-class DatePickerButton extends React.Component{
-    static contextTypes = {
-        intl: PropTypes.object,
-    }
-
-    render(){
-        const {onClick, disabled} = this.props
-        return <Button
-            disabled={disabled}
-            aria-hidden
-            aria-label={this.context.intl.formatMessage({id: 'date-picker-button-label'})}
-            tabIndex={-1}
-            onClick={onClick}
-            className="glyphicon glyphicon-calendar custom-date-input__button">
-        </Button>
-    }
-}
-
-DatePickerButton.propTypes = {
-    onClick: PropTypes.func,
-    disabled: PropTypes.bool,
-}
-
-export {DatePickerButton}
 
 export default CustomDatePicker

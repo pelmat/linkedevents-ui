@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {FormattedMessage, injectIntl} from 'react-intl';
-import CustomDatePicker from '../CustomFormFields/CustomDatePicker'
+import CustomDatePicker from '../CustomFormFields/Dateinputs/CustomDatePicker'
 import {Button, Form, FormGroup} from 'reactstrap';
 
 const handleKeyPress = (event, startDate, endDate, onFormSubmit, setSearchQuery) => {

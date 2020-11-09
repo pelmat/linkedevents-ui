@@ -7,7 +7,7 @@ import {Button, Form, FormGroup} from 'reactstrap';
 
 import fiMessages from 'src/i18n/fi.json';
 import {SearchBarWithoutIntl} from '../index'
-import CustomDatePicker from '../../CustomFormFields/CustomDatePicker'
+import CustomDatePicker from '../../CustomFormFields/Dateinputs/CustomDatePicker'
 
 describe('SearchBar', () => {
     const testMessages = mapValues(fiMessages, (value, key) => value);
