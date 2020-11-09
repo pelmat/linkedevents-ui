@@ -393,7 +393,8 @@
     "image-modal-view-terms-paragraph-text": "Voit tutustua laajemmin <a href='/help#images' target='_blank' rel='noopener noreferrer'>kuvien lisäämisen ehtoihin ja suosituksiin (aukeaa uudessa välilehdessä).</a>",
     "image-modal-save-button-text": "Tallenna tiedot",
     "error-message-has-been-sent": "Raportti lähetetty onnistuneesti, kiitoksia!",
-    "invalid-date-format": "Kirjoita päivämäärä ja aika oikeassa muodossa.",
+    "invalid-date-time-format": "Kirjoita päivämäärä ja aika oikeassa muodossa.",
+    "invalid-date-format": "Päiväyksen muoto on väärä.",
     "invalid-time-format": "Ajan muoto on väärä.",
 
     "terms-agree-text": "Hyväksyn",

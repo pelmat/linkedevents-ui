@@ -90,7 +90,7 @@ class CustomDateTime extends React.Component {
     validateDate(date, minDate){
         if(!moment(date, getDateFormat('date-time'), true).isValid()){
             this.setState({
-                validationErrorText: <FormattedMessage id="invalid-date-format" />,
+                validationErrorText: <FormattedMessage id="invalid-date-time-format" />,
                 showValidationError: true,
             })
             return false
