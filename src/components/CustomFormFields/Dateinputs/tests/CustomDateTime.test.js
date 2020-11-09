@@ -305,7 +305,7 @@ describe('functions', () => {
         test('sets correct state when date is not valid and returns false', () => {
             const date = roundDateToCorrectUnit(moment('abc', getDateFormat(defaultProps.type)))
             const returnValue = instance.validateDate(date, undefined)
-            expect(instance.state.validationErrorText).toEqual(<FormattedMessage id="invalid-date-format" />)
+            expect(instance.state.validationErrorText).toEqual(<FormattedMessage id="invalid-date-time-format" />)
             expect(instance.state.showValidationError).toBe(true);
             expect(returnValue).toBe(false)
         })
