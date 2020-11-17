@@ -4,6 +4,7 @@ import {IntlProvider} from 'react-intl';
 import mapValues from 'lodash/mapValues';
 import fiMessages from 'src/i18n/fi.json';
 import {CookieBarWithoutIntl} from '../CookieBar';
+import {addCookieScript} from '../../../utils/cookieUtils';
 
 
 describe('src/components/cookieBar/CookieBar', () => {
@@ -25,7 +26,7 @@ describe('src/components/cookieBar/CookieBar', () => {
         expect(wrapper.prop('declineButtonText')).toEqual(intl.formatMessage({id: 'cookieBar.decline.text'}));
         expect(wrapper.prop('disableStyles')).toBe(true);
         expect(wrapper.prop('enableDeclineButton')).toBe(true);
-        expect(wrapper.prop('onAccept')).toBeDefined();
+        expect(wrapper.prop('onAccept')).toBe(addCookieScript);
         expect(wrapper.prop('expires')).toBe(90);
         expect(wrapper.prop('flipButtons')).toBe(true);
         expect(wrapper.contains(intl.formatMessage({id: 'cookieBar.description'}))).toBe(true);
