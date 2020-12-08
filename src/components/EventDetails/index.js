@@ -313,6 +313,29 @@ VideoValue.propTypes = {
     values: PropTypes.array,
 }
 
+const LocationDetails = ({value}) => {
+    if(value.is_virtualevent)
+    {
+        return (<p>virtuaalitapahtuma</p>)
+    }else {
+        return (
+            <React.Fragment>
+                <MultiLanguageValue labelKey="event-location" value={get(value, 'location.name')}/>
+                <TextValue labelKey="event-location-id" value={get(value, 'location.id')}/>
+                <MultiLanguageValue
+                    labelKey="event-location-additional-info"
+                    value={value['location_extra_info']}
+                />
+            </React.Fragment>
+        )
+    }
+}
+
+LocationDetails.propTypes = {
+    value: PropTypes.object,
+}
+
+
 const EventDetails = (props) => {
     const {editor, values, intl, rawData, publisher, superEvent} = props
     // Changed keywordSets to be compatible with Turku's backend.
@@ -344,13 +367,7 @@ const EventDetails = (props) => {
             <FormHeader>
                 {intl.formatMessage({id: 'event-location-fields-header'})}
             </FormHeader>
-
-            <MultiLanguageValue labelKey="event-location" value={get(values, 'location.name')}/>
-            <TextValue labelKey="event-location-id" value={get(values, 'location.id')}/>
-            <MultiLanguageValue
-                labelKey="event-location-additional-info"
-                value={values['location_extra_info']}
-            />
+            <LocationDetails value={values} />
 
             <FormHeader>
                 {intl.formatMessage({id: 'event-price-fields-header'})}

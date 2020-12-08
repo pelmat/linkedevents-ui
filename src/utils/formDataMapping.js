@@ -47,6 +47,7 @@ function mapUIDataToAPIFormat(values) {
     obj.super_event = values.super_event
     obj.publisher = values.organization
     obj.videos = values.videos
+    obj.is_virtualevent = values.is_virtualevent
 
     // Location data
     if (values.location) {
@@ -168,6 +169,7 @@ function mapAPIDataToUIFormat(values) {
 
     // Location data
     obj.location = values.location
+    obj.is_virtualevent = values.is_virtualevent
 
     obj.location_extra_info = values.location_extra_info
 

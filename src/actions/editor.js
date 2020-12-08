@@ -92,6 +92,12 @@ export function setLanguages(languages) {
         languages: languages,
     }
 }
+export function setIsVirtual(is_virtualevent) {
+    return {
+        type: constants.EDITOR_SET_VIRTUAL,
+        is_virtualevent,
+    }
+}
 
 /**
  * Replace all editor values
