@@ -20,7 +20,7 @@ import {
 } from '../../actions/editor'
 import {confirmAction, clearFlashMsg as clearFlashMsgAction, setFlashMsg as setFlashMsgAction} from '../../actions/app'
 import constants from '../../constants'
-import FormFields from '../../components/FormFields'
+import FormFields from '../../components/FormFields/'
 import {EventQueryParams, fetchEvent} from '../../utils/events'
 import {push} from 'react-router-redux'
 import moment from 'moment'
@@ -303,9 +303,6 @@ export class EditorPage extends React.Component {
                 <div className="editor-page">
                     <Helmet title={pageTitle}/>
                     <div className="container header">
-                        <h1>
-                            <FormattedMessage id={headerTextId}/>
-                        </h1>
                         <div className="controls">
                             {isAdminUser && isDraft &&
                                 <Button
