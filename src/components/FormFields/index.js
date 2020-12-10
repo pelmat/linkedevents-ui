@@ -30,6 +30,7 @@ import CustomDateTimeField from '../CustomFormFields/Dateinputs/CustomDateTimeFi
 import EventMap from '../Map/EventMap';
 import classNames from 'classnames';
 import ImageGallery from '../ImageGallery/ImageGallery';
+import VirtualCheckbox from '../VirtualCheckbox/VirtualCheckbox'
 
 
 // Removed material-ui/icons because it was no longer used.
@@ -307,60 +308,64 @@ class FormFields extends React.Component {
                         </div>
                     </SideField>
                     <div className="col-sm-6 hel-select">
-
-                        <HelSelect
-                            legend={this.context.intl.formatMessage({id: 'event-location'})}
-                            selectedValue={values['location']}
-                            ref="location"
-                            name="location"
-                            resource="place"
-                            validationErrors={validationErrors['location']}
-                            setDirtyState={this.props.setDirtyState}
-                            optionalWrapperAttributes={{className: 'location-select'}}
-                            currentLocale={currentLocale}
-                            required={true}
+                        <VirtualCheckbox
+                            defaultChecked={values['is_virtualevent']}
                         />
-                        <div className='map-button-container'>
-                            <Button
-                                aria-label={position ? null : this.context.intl.formatMessage({id: 'event-location-button-tooltip'})}
-                                aria-pressed={this.state.openMapContainer}
-                                id='map-button'
-                                className={classNames('btn btn-link', {disabled: !position})}
-                                onClick={() => this.toggleMapContainer()}
-                            >
-                                <FormattedMessage id={'event-location-button'}>{txt => txt}</FormattedMessage>
-                                <span className={classNames(
-                                    'glyphicon',
-                                    {'glyphicon-triangle-bottom': this.state.openMapContainer},
-                                    {'glyphicon-triangle-top': !this.state.openMapContainer})}
+                        {!values['is_virtualevent'] &&
+                            <React.Fragment>
+                                <HelSelect
+                                    legend={this.context.intl.formatMessage({id: 'event-location'})}
+                                    selectedValue={values['location']}
+                                    ref="location"
+                                    name="location"
+                                    resource="place"
+                                    validationErrors={validationErrors['location']}
+                                    setDirtyState={this.props.setDirtyState}
+                                    optionalWrapperAttributes={{className: 'location-select'}}
+                                    currentLocale={currentLocale}
+                                    required={true}
                                 />
-                            </Button>
-                        </div>
-                        <div aria-expanded={this.state.openMapContainer} className={classNames('map-container', {open: this.state.openMapContainer})} ref={this.handleSetMapContainer}>
-                            {this.state.openMapContainer &&
-                                <EventMap position={position} mapContainer={this.state.mapContainer}/>
-                            }
-                        </div>
+                                <div className='map-button-container'>
+                                    <Button
+                                        aria-label={position ? null : this.context.intl.formatMessage({id: 'event-location-button-tooltip'})}
+                                        aria-pressed={this.state.openMapContainer}
+                                        id='map-button'
+                                        className={classNames('btn btn-link', {disabled: !position})}
+                                        onClick={() => this.toggleMapContainer()}
+                                    >
+                                        <FormattedMessage id={'event-location-button'}>{txt => txt}</FormattedMessage>
+                                        <span className={classNames(
+                                            'glyphicon',
+                                            {'glyphicon-triangle-bottom': this.state.openMapContainer},
+                                            {'glyphicon-triangle-top': !this.state.openMapContainer})}
+                                        />
+                                    </Button>
+                                </div>
+                                <div aria-expanded={this.state.openMapContainer} className={classNames('map-container', {open: this.state.openMapContainer})} ref={this.handleSetMapContainer}>
+                                    {this.state.openMapContainer &&
+                                        <EventMap position={position} mapContainer={this.state.mapContainer}/>
+                                    }
+                                </div>
 
-                        <Form>
-                            <FormGroup className='place-id'>
-                                <label>{this.context.intl.formatMessage({id: 'event-location-id'})}
-                                    <span className="form-control" value={values['location'] && values['location'].id ? values['location'].id : ''}>
-                                        {values['location'] && values['location'].id ? values['location'].id : ''}
-                                    </span>
-                                </label>
-                            </FormGroup>
+                                <Form>
+                                    <FormGroup className='place-id'>
+                                        <label>{this.context.intl.formatMessage({id: 'event-location-id'})}
+                                            <span className="form-control" value={values['location'] && values['location'].id ? values['location'].id : ''}>
+                                                {values['location'] && values['location'].id ? values['location'].id : ''}
+                                            </span>
+                                        </label>
+                                    </FormGroup>
+                                </Form>
 
-                        </Form>
-
-
-                        <CopyToClipboard text={values['location'] ? values['location'].id : ''}>
-                            <button type='button' className="clipboard-copy-button btn btn-default" aria-label={this.context.intl.formatMessage({id: 'copy-location-to-clipboard'})}>
-                                <div hidden>.</div>
-                                <span className="glyphicon glyphicon-duplicate" aria-hidden="true">
-                                </span>
-                            </button>
-                        </CopyToClipboard>
+                                <CopyToClipboard text={values['location'] ? values['location'].id : ''}>
+                                    <button type='button' className="clipboard-copy-button btn btn-default" aria-label={this.context.intl.formatMessage({id: 'copy-location-to-clipboard'})}>
+                                        <div hidden>.</div>
+                                        <span className="glyphicon glyphicon-duplicate" aria-hidden="true">
+                                        </span>
+                                    </button>
+                                </CopyToClipboard>
+                            </React.Fragment>
+                        }
                         <MultiLanguageField
                             id='event-location-additional-info'
                             multiLine={true}
@@ -375,8 +380,8 @@ class FormFields extends React.Component {
                             type='text'
                         />
                     </div>
-
                 </div>
+
                 <FormHeader>
                     <FormattedMessage id="event-datetime-fields-header" />
                 </FormHeader>

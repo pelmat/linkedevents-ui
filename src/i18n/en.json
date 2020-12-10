@@ -148,6 +148,7 @@
     "repetition-end-time": "End time (hh.mm)",
 
     "event-location-fields-header": "Venue",
+    "event-location-virtual": "Virtual event",
     "event-location": "Location",
     "event-location-id": "Location ID",
     "event-location-additional-info": "Additional information",

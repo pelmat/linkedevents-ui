@@ -164,6 +164,7 @@
     "repetition-end-time": "Tapahtumien loppuaika (tt.mm)",
 
     "event-location-fields-header": "Tapahtumapaikka",
+    "event-location-virtual": "Virtuaalitapahtuma",
     "event-location": "Paikka",
     "event-location-id": "Paikan ID",
     "event-location-additional-info": "Paikan lisätiedot",

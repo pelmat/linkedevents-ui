@@ -144,6 +144,7 @@
     "repetition-end-time": "Händelsernas sluttid (tt.mm)",
 
     "event-location-fields-header": "Händelseplats",
+    "event-location-virtual": "Virtuell händelse",
     "event-location": "Plats",
     "event-location-id": "Plats ID",
     "event-location-additional-info": "Ytterligare information om platsen",
