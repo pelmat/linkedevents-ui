@@ -1,0 +1,39 @@
+.homepage {
+    background-image: url(../../assets/images/Linked-event-background.jpg);
+    background-size: 100%;
+    .container {
+        max-width: 99%;
+        .row {
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+    }
+    .row-homeheader {
+        width: 100%;
+        text-align: start;
+        border-top: none;
+        border-right: none;
+        border-left: none;
+        border-bottom: solid var(--light-color);
+        padding: 0.375rem 0.75rem;
+        background-color: var(--main-color);
+        margin-top: 4rem !important;
+        @media (min-width: 320px) and (max-width: 768px) {
+            margin-top: 2rem !important;
+        }
+        h1 {
+            color: var(--light-color);
+            font-weight: bold;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+    }
+    .header {
+        align-items: baseline;
+        display: flex;
+        position: relative;
+    }
+    .content {
+        background-color: white;
+    }
+}
