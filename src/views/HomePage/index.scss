@@ -2,10 +2,17 @@
     background-image: url(../../assets/images/Linked-event-background.jpg);
     background-size: 100%;
     .container {
-        max-width: 99%;
+        max-width: 80%;
+        @media screen and (max-width: 991px) {
+           max-width: 95%; 
+        }
         .row {
             margin-left: 15px;
             margin-right: 15px;
+            @media screen and (max-width: 991px) {
+                margin-left: 0px;
+                margin-right: 0px;
+            }
         }
     }
     .row-homeheader {
@@ -35,5 +42,52 @@
     }
     .content {
         background-color: white;
+        .homebuttons {
+            text-align: center;
+            @media screen and (max-width: 791px) {
+                display: grid;
+                justify-items: center;
+            }
+            .btn {
+            display: inline-grid;
+            width: 200px;
+            height: 100px;
+            margin-left: 20px;
+            margin-right: 20px;
+            font-weight: bold;
+            background-color: var(--main-color);
+            color: var(--light-color);
+            border-color: var(--darkgray-color);
+                .glyphicon {
+                    align-self: end;
+                    font-size: 2rem;
+                    @media screen and (max-width: 991px) {
+                        font-size: 1rem;
+                    }
+                }
+                span {
+                    font-size: 1rem;
+                }
+                @media screen and (max-width: 991px) {
+                    height: 50px;
+                    display: inline-grid;
+                    margin-bottom: 15px;
+                }
+            }
+        }
+        .lorem {
+        h2 {
+            text-align: center;
+        }
+        p {
+            text-align: center;
+        }
+    }
+        .events {
+            h2 {
+            border-bottom: 2px solid;
+            text-align: center;
+            }
+        }
     }
 }

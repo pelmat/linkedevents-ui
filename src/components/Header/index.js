@@ -169,9 +169,9 @@ class HeaderBar extends React.Component {
                             </NavItem>
                             <NavItem>
                                 <NavLink
-                                    active={this.isActivePath('/')}
+                                    active={this.isActivePath('/listing')}
                                     href='#'
-                                    onClick={() => this.handleOnClick('/')}>
+                                    onClick={() => this.handleOnClick('/listing')}>
                                     <span aria-hidden className='glyphicon glyphicon-wrench' />
                                     <FormattedMessage id={`${appSettings.ui_mode}-management`} />
                                 </NavLink>
