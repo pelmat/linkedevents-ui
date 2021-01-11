@@ -49,6 +49,7 @@
                 justify-items: center;
             }
             .btn {
+            white-space: break-spaces;
             display: inline-grid;
             width: 200px;
             height: 100px;
@@ -69,7 +70,7 @@
                     font-size: 1rem;
                 }
                 @media screen and (max-width: 991px) {
-                    height: 50px;
+                    height: 80px;
                     display: inline-grid;
                     margin-bottom: 15px;
                 }
