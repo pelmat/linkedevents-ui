@@ -9,8 +9,10 @@ import {getOrganizationMembershipIds} from './user'
 const {PUBLICATION_STATUS, EVENT_STATUS, USER_TYPE, SUPER_EVENT_TYPE_UMBRELLA} = constants
 
 export const userMayEdit = (user, event) => {
+    const eventOwner = get(event, 'is_owner')
     const adminOrganizations = get(user, 'adminOrganizations')
     const userOrganization = get(user, 'organization')
+    const publicMembership = get(user, 'publicMemberships')
     const eventOrganization = get(event, 'publisher')
     const eventOrganizationAncestors = get(event, 'publisherAncestors')
     const organizationMemberships = get(user, 'organizationMemberships')
@@ -46,7 +48,11 @@ export const userMayEdit = (user, event) => {
     // disallowed for everybody else. event organization is set by the API when POSTing.
         userMayEdit = true
     }
-
+    if (publicMembership && !userMayEdit && eventOwner) {
+        //User has public membership and is owner of the event
+        //may publish and edit their own events
+        userMayEdit = eventOwner
+    }
     return userMayEdit
 }
 
