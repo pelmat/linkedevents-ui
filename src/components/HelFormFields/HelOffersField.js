@@ -1,17 +1,16 @@
+import './HelOffersField.scss';
 import PropTypes from 'prop-types';
-import React from 'react'
+import React, {Fragment} from 'react';
 
-import {FormattedMessage, injectIntl} from 'react-intl'
-import HelCheckbox from './HelCheckbox'
-import NewOffer from './NewOffer'
-import './HelOffersField.scss'
+import {FormattedMessage} from 'react-intl';
+import HelCheckbox from './HelCheckbox';
+import NewOffer from './NewOffer';
 import {Button} from 'reactstrap';
-import constants from '../../constants'
-import {addOffer, setOfferData, setFreeOffers} from 'src/actions/editor.js'
+import constants from '../../constants';
+import {addOffer, setOfferData, setFreeOffers} from 'src/actions/editor.js';
 
 const {GENERATE_LIMIT} = constants;
 class HelOffersField extends React.Component {
-
     static contextTypes = {
         intl: PropTypes.object,
         dispatch: PropTypes.func,
@@ -19,9 +18,9 @@ class HelOffersField extends React.Component {
 
     constructor(props) {
         super(props);
-        let isFreeEvent = true
+        let isFreeEvent = true;
         if (this.props.defaultValue && this.props.defaultValue.length > 0) {
-            isFreeEvent = false //we have length in defaultvalue array so we have prices -> not a free event.
+            isFreeEvent = false; //we have length in defaultvalue array so we have prices -> not a free event.
         }
         this.state = {
             values: this.props.defaultValue,
@@ -31,43 +30,43 @@ class HelOffersField extends React.Component {
 
     UNSAFE_componentWillMount() {
         if (this.props.defaultValue && this.props.defaultValue.length) {
-            this.setState({values: this.props.defaultValue})
+            this.setState({values: this.props.defaultValue});
         }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         if (nextProps.defaultValue && nextProps.defaultValue !== this.state.values) {
-            this.setState({values: nextProps.defaultValue})
+            this.setState({values: nextProps.defaultValue});
         }
         if (nextProps.defaultValue && nextProps.defaultValue[0] && this.state.isFree !== nextProps.defaultValue[0].is_free) {
-            this.setState({isFree: nextProps.defaultValue[0].is_free})
+            this.setState({isFree: nextProps.defaultValue[0].is_free});
         }
     }
 
     setIsFree(e, value) {
         if (!this.props.defaultValue || !this.props.defaultValue.length) {
-            this.addNewOffer()
-            this.context.dispatch(setOfferData({'0': {is_free: !this.state.isFree}}, 0))
+            this.addNewOffer();
+            this.context.dispatch(setOfferData({0: {is_free: !this.state.isFree}}, 0));
         } else {
-            this.context.dispatch(setFreeOffers(!this.state.isFree))
+            this.context.dispatch(setFreeOffers(!this.state.isFree));
         }
-        this.setState({isFree: !this.state.isFree})
+        this.setState({isFree: !this.state.isFree});
     }
 
     addNewOffer() {
         const obj = {
             is_free: this.state.isFree,
-        }
-        this.context.dispatch(addOffer(obj))
+        };
+        this.context.dispatch(addOffer(obj));
     }
 
     generateOffers(offers) {
-        const newOffers = []
-        let keys
-        let lastKey
-        if(offers){
-            keys = Object.keys(offers)
-            lastKey = keys[keys.length - 1]
+        const newOffers = [];
+        let keys;
+        let lastKey;
+        if (offers) {
+            keys = Object.keys(offers);
+            lastKey = keys[keys.length - 1];
         }
 
         for (const key in offers) {
@@ -82,22 +81,28 @@ class HelOffersField extends React.Component {
                         isFree={this.state.isFree}
                         setInitialFocus={key === lastKey ? true : false}
                     />
-                )
+                );
             }
         }
-        return newOffers
+        return newOffers;
     }
 
     render() {
         const {values} = this.state;
-        const offerDetails = this.generateOffers(this.props.defaultValue)
+        const offerDetails = this.generateOffers(this.props.defaultValue);
         //Change OFFER_LENGTH in constants to change maxium length of prices users can add, currently limited to 20
-        const isOverLimit = values && values.length >= GENERATE_LIMIT.OFFER_LENGTH
-        const disabled = isOverLimit || this.state.isFree
+        const isOverLimit = values && values.length >= GENERATE_LIMIT.OFFER_LENGTH;
+        const disabled = isOverLimit || this.state.isFree;
 
         return (
-            <div className="offers-field">
-                <HelCheckbox defaultChecked={this.state.isFree} ref="is_free" label={<FormattedMessage id="is-free"/>} onChange={(e,v) => this.setIsFree(e,v)} />
+            <Fragment>
+                <HelCheckbox
+                    fieldID='is-free-checkbox'
+                    defaultChecked={this.state.isFree}
+                    ref='is_free'
+                    label={<FormattedMessage id='is-free' />}
+                    onChange={(e, v) => this.setIsFree(e, v)}
+                />
                 <div className="offers">
                     { offerDetails }
                 </div>
@@ -113,21 +118,18 @@ class HelOffersField extends React.Component {
                 }
                 {isOverLimit && 
                     <p className='offersLimit' role='alert'>
-                        <FormattedMessage id="event-add-price-limit" values={{count:GENERATE_LIMIT.OFFER_LENGTH}}/>
+                        <FormattedMessage id='event-add-price-limit' values={{count: GENERATE_LIMIT.OFFER_LENGTH}} />
                     </p>
                 }
-            </div>
-        )
+            </Fragment>
+        );
     }
 }
 
 HelOffersField.propTypes = {
     defaultValue: PropTypes.array,
-    validationErrors: PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.object,
-    ]),
+    validationErrors: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     languages: PropTypes.array,
-}
+};
 
-export default HelOffersField
+export default HelOffersField;
