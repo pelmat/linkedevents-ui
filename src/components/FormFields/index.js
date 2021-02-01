@@ -31,6 +31,7 @@ import EventMap from '../Map/EventMap';
 import classNames from 'classnames';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import CollapseButton from './CollapseButton/CollapseButton';
+import HelCheckbox from '../HelFormFields/HelCheckbox';
 
 
 // Removed material-ui/icons because it was no longer used.
@@ -308,7 +309,30 @@ class FormFields extends React.Component {
                         <p><FormattedMessage id="editor-tip-location-not-found"/></p>
                     </SideField>
                     <div className="col-sm-6 hel-select">
+                        <div>
+                            
+                            <HelCheckbox
+                                name='is_virtualevent'
+                                label={<FormattedMessage id='event-location-virtual'/>}
+                                fieldID='is_virtual'
+                                defaultChecked={values['is_virtualevent']}
+                            />
 
+                            <HelTextField
+                                validations={[VALIDATION_RULES.IS_URL]}
+                                id='event-location-virtual-url'
+                                ref="event-location-virtual-url"
+                                name="virtualevent_url"
+                                label={this.context.intl.formatMessage({id: 'event-location-virtual-url'})}
+                                validationErrors={validationErrors['virtualevent_url']}
+                                defaultValue={values['virtualevent_url']}
+                                setDirtyState={this.props.setDirtyState}
+                                forceApplyToStore
+                                type='text'
+                                required={values.is_virtualevent}
+                                disabled={!values.is_virtualevent}
+                            />
+                        </div>
                         <HelSelect
                             legend={this.context.intl.formatMessage({id: 'event-location'})}
                             selectedValue={values['location']}
@@ -319,7 +343,7 @@ class FormFields extends React.Component {
                             setDirtyState={this.props.setDirtyState}
                             optionalWrapperAttributes={{className: 'location-select'}}
                             currentLocale={currentLocale}
-                            required={true}
+                            required={!values.is_virtualevent}
                         />
                         <div className='map-button-container'>
                             <Button

@@ -47,15 +47,22 @@ function mapUIDataToAPIFormat(values) {
     obj.super_event = values.super_event
     obj.publisher = values.organization
     obj.videos = values.videos
+    obj.is_virtualevent = values.is_virtualevent
+    obj.virtualevent_url = values.virtualevent_url
 
     // Location data
     if (values.location) {
         obj.location = {'@id': values.location['@id']}
+    } else if (!values.location) {
+        obj.location = null
     }
     if (values.location_extra_info) {
         obj.location_extra_info = _nullifyEmptyStrings(values.location_extra_info)
     }
-
+    // Virtual data
+    if (!values.is_virtualevent) {
+        obj.is_virtualevent = false
+    }
     // Image data
     obj.images = []
     if(values.image && !isEmpty(values.image)) {
@@ -168,8 +175,10 @@ function mapAPIDataToUIFormat(values) {
 
     // Location data
     obj.location = values.location
-
     obj.location_extra_info = values.location_extra_info
+    // Virtual data
+    obj.is_virtualevent = values.is_virtualevent
+    obj.virtualevent_url = values.virtualevent_url
 
     if(values.offers) {
         obj.offers = values.offers
@@ -207,7 +216,7 @@ function mapAPIDataToUIFormat(values) {
     if(values.end_time) {
         obj.end_time = values.end_time
     }
-
+    
     if(values.images) {
         obj.image = values.images[0]
     }

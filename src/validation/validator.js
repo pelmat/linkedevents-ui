@@ -1,7 +1,7 @@
 import CONSTANTS from '../constants'
 import validationFn from './validationRules'
 import {getCharacterLimitByRule} from '../utils/helpers'
-import {each, remove, pickBy, isEmpty, omitBy} from 'lodash'
+import {each, remove, pickBy, isEmpty, omitBy, includes} from 'lodash'
 import moment from 'moment'
 
 const {
@@ -20,6 +20,7 @@ const draftValidations = {
     short_description: [VALIDATION_RULES.REQUIRE_MULTI, VALIDATION_RULES.REQUIRED_IN_CONTENT_LANGUAGE, VALIDATION_RULES.SHORT_STRING],
     description: [VALIDATION_RULES.LONG_STRING],
     info_url: [VALIDATION_RULES.IS_URL],
+    virtualevent_url: [VALIDATION_RULES.IS_URL],
     extlink_facebook: [VALIDATION_RULES.IS_URL],
     extlink_twitter: [VALIDATION_RULES.IS_URL],
     extlink_instagram: [VALIDATION_RULES.IS_URL],
@@ -45,6 +46,7 @@ const publicValidations = {
     short_description: [VALIDATION_RULES.REQUIRE_MULTI, VALIDATION_RULES.REQUIRED_IN_CONTENT_LANGUAGE, VALIDATION_RULES.SHORT_STRING],
     description: [VALIDATION_RULES.LONG_STRING],
     info_url: [VALIDATION_RULES.IS_URL],
+    virtualevent_url: [VALIDATION_RULES.IS_URL],
     extlink_facebook: [VALIDATION_RULES.IS_URL],
     extlink_twitter: [VALIDATION_RULES.IS_URL],
     extlink_instagram: [VALIDATION_RULES.IS_URL],
@@ -106,7 +108,19 @@ function runValidationWithSettings(values, languages, settings, keywordSets) {
                 const error = isEmpty(subEventError) ? null : subEventError
                 errors[eventKey] = error
             })
-        // validate offers
+            // validate location & virtual event based on conditional
+            // if event is virtual, location is not required
+        } else if (key === 'location') {
+            errors = validateLocation(values, validations)
+
+        }
+        // check is_virtual boolean, is true check that virtualevent_url exists
+        // validate virtual_url
+        // Check for URL
+        else if (key === 'virtualevent_url') {
+            errors = validateVirtualURL(values, validations)
+
+            // validate offers
         } else if (key === 'price') {
             errors = validateOffers(valuesWithLanguages)
         // validate keywords
@@ -142,6 +156,35 @@ function runValidationWithSettings(values, languages, settings, keywordSets) {
         return validationErrors.length > 0
     })
     return obj
+}
+// Validate location
+const validateLocation = (values, validations) => {
+    const errors = []
+    // Validation rule used for location select
+    const validationError = VALIDATION_RULES.REQUIRE_AT_ID
+    if (!values['is_virtualevent']) {
+        if (!validationFn[validationError](values, values['location'])) {
+            errors.push(validationError)
+        }
+    }
+    return errors
+}
+// Validate is_virtual & virtualevent_url
+// Check that virtualevent_url is url indeed
+const validateVirtualURL = (values, validations) => {
+    const errors = []
+    // Validation rule used for virtual events url
+    const validationError = VALIDATION_RULES.IS_URL
+    if (values['is_virtualevent'] && values['virtualevent_url']) {
+        validations.forEach((val) => {
+            if (!validationFn[val](values, values['virtualevent_url'])) {
+                errors.push(val)
+            }
+        })
+    } else if (values['is_virtualevent'] && !values['virtualevent_url']) {
+        errors.push(validationError)
+    }
+    return errors
 }
 
 const validateOffers = values => {
