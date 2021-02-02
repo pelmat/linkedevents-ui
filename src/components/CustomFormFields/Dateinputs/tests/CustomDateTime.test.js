@@ -354,26 +354,6 @@ describe('functions', () => {
         })
     })
 
-    describe('componentDidMount', () => {
-        test('sets focus to ref firstInput if prop.setInitialFocus is true', () => {
-            const wrapper = mount(<UnconnectedCustomDateTime {...defaultProps} setInitialFocus={true} />, {context: {intl}});
-            const instance = wrapper.instance()
-            const firstInput = instance.firstInput
-            jest.spyOn(firstInput.current, 'focus')
-            instance.componentDidMount()
-            expect(firstInput.current.focus).toHaveBeenCalledTimes(1)
-        })
-
-        test('doesnt set focus to firstInput if prop.setInitialFocus is not true', () => {
-            const wrapper = mount(<UnconnectedCustomDateTime {...defaultProps} setInitialFocus={false} />, {context: {intl}});
-            const instance = wrapper.instance()
-            const firstInput = instance.firstInput
-            jest.spyOn(firstInput.current, 'focus')
-            instance.componentDidMount()
-            expect(firstInput.current.focus).toHaveBeenCalledTimes(0)
-        })
-    })
-
     describe('componentDidUpdate', () => {
         const spy = jest.spyOn(UnconnectedCustomDateTime.prototype, 'validateDate');
 
@@ -382,7 +362,7 @@ describe('functions', () => {
         })
             
         test('calls validateDate if state.dateInputValue and state.timeInputValue are defined', () => {
-            const wrapper = mount(<UnconnectedCustomDateTime {...defaultProps} />, {context: {intl}});
+            const wrapper = shallow(<UnconnectedCustomDateTime {...defaultProps} />, {context: {intl}});
             const instance = wrapper.instance()
             instance.state.dateInputValue = '123'
             instance.state.timeInputValue = '456'
@@ -396,7 +376,7 @@ describe('functions', () => {
         })
 
         test('doesnt call validateDate if state.dateInputValue and state.timeInputValue are not defined', () => {
-            const wrapper = mount(<UnconnectedCustomDateTime {...defaultProps} />, {context: {intl}});
+            const wrapper = shallow(<UnconnectedCustomDateTime {...defaultProps} />, {context: {intl}});
             const instance = wrapper.instance()
             instance.setState({dateInputValue: '', timeInputValue: ''})
             const minDate = moment('2020-03-23')
