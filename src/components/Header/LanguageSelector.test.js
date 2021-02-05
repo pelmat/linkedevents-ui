@@ -72,8 +72,7 @@ describe('languageSelector', () => {
         });
         test('click calls changeLanguage', () => {
             const wrapper = getWrapper();
-            const instance = wrapper.instance();
-            const spy = jest.spyOn(instance.props,'changeLanguage');
+            const spy = jest.spyOn(wrapper.instance().props,'changeLanguage');
             const liElement = wrapper.find('li').at(0);
             
             liElement.simulate('click', {preventDefault: () => {}});
