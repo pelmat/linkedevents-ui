@@ -26,7 +26,7 @@ const defaultProps = {
     userLocale: {
         locale: 'fi',
     },
-    changeLanguage: () => null,
+    changeLanguage: jest.fn(),
 };
 
 describe('languageSelector', () => {
@@ -70,9 +70,14 @@ describe('languageSelector', () => {
             expect(first.prop('onClick')).toBeDefined();
             expect(first.prop('className')).toBe('language-item');
         });
-        test('onClick fires handleLanguageChange', () => {
+        test('click calls changeLanguage', () => {
             const wrapper = getWrapper();
             const instance = wrapper.instance();
+            const spy = jest.spyOn(instance.props,'changeLanguage');
+            const liElement = wrapper.find('li').at(0);
+            
+            liElement.simulate('click', {preventDefault: () => {}});
+            expect(spy).toHaveBeenCalled();
         });
     });
 });
