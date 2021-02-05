@@ -134,6 +134,7 @@ describe('renders', () => {
 
         test('for date with default props', () => {
             const dateDatePicker = wrapper.find(DatePicker).at(0)
+            expect(dateDatePicker.prop('id')).toBe(defaultProps.id + '-date-field' + '-button')
             expect(dateDatePicker.prop('disabled')).toBe(defaultProps.disabled)
             expect(dateDatePicker.prop('openToDate')).toEqual(getDatePickerOpenDate(defaultProps.defaultValue))
             expect(dateDatePicker.prop('onChange')).toBeDefined()
@@ -155,6 +156,7 @@ describe('renders', () => {
         test('for time with default props', () => {
             const timeDatePicker = wrapper.find(DatePicker).at(1)
             expect(timeDatePicker.prop('onChange')).toBeDefined()
+            expect(timeDatePicker.prop('id')).toBe(defaultProps.id + '-time-field' + '-button')
             expect(timeDatePicker.prop('disabled')).toBe(defaultProps.disabled)
             expect(timeDatePicker.prop('customInput')).toEqual(<DatePickerButton disabled={defaultProps.disabled} type={'time'}/>)
             expect(timeDatePicker.prop('locale')).toBe(instance.context.intl.locale)
