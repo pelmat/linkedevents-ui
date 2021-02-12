@@ -31,5 +31,13 @@ describe('LoginNotification', () => {
             expect(message.at(1).prop('id')).toBe('login-warning1');
             expect(message.at(2).prop('id')).toBe('login-warning2');
         });
+
+        describe('Login button', () => {
+            test('calls handleLoginClick', () => {
+                const wrapper = getWrapper();
+                const loginButton = wrapper.find('button');
+                loginButton.simulate('click');
+            });
+        });
     });
 });
