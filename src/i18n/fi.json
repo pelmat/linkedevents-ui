@@ -512,5 +512,9 @@
     "image-upload-help": "Kuvan lisäämisen ohje",
     "uploaded-image-alt-tip-help": "Kuvan alt-teksti ohje",
     "license-help-text": "Lisenssi ohje",
-    "profile-menu": " Käyttäjävalikko"
+    "profile-menu": " Käyttäjävalikko",
+
+    "login-warning": "Huom! Sinun täytyy",
+    "login-warning1": "kirjautua sisään",
+    "login-warning2": "lisätäksesi tapahtuman!"
 }
