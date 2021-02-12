@@ -32,7 +32,7 @@ import classNames from 'classnames';
 import ImageGallery from '../ImageGallery/ImageGallery';
 import CollapseButton from './CollapseButton/CollapseButton';
 import HelCheckbox from '../HelFormFields/HelCheckbox';
-
+import LoginNotification from './LoginNotification/LoginNotification'
 
 // Removed material-ui/icons because it was no longer used.
 //Added isOpen for RecurringEvents modal
@@ -238,6 +238,11 @@ class FormFields extends React.Component {
             : 'create-events'
         return (
             <div className='mainwrapper'>
+                {!this.props.user &&
+                <div className='row-loginwarning'>
+                    <LoginNotification />
+                </div>
+                }
                 <div className='row row-mainheader'>
                     <FormattedMessage id={headerTextId}>{txt => <h1>{txt}</h1>}</FormattedMessage>
                 </div>

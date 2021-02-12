@@ -334,7 +334,7 @@ export class EditorPage extends React.Component {
                         />
                     </div>
 
-                    <div className="container">
+                    <div className="container mt-5 pt-3">
                         <FormFields
                             action={editMode}
                             editor={editor}
