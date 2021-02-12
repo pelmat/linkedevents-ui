@@ -1071,7 +1071,7 @@ exports[`Editor Snapshot should render view correctly when creating new event fr
       />
     </div>
     <div
-      className="container"
+      className="container mt-5 pt-3"
     >
       <FormFields
         action="create"
@@ -3133,7 +3133,7 @@ exports[`Editor Snapshot should render view correctly when editing existing even
       />
     </div>
     <div
-      className="container"
+      className="container mt-5 pt-3"
     >
       <FormFields
         action="update"
@@ -4750,7 +4750,7 @@ exports[`Editor Snapshot should render view correctly when new event 1`] = `
       />
     </div>
     <div
-      className="container"
+      className="container mt-5 pt-3"
     >
       <FormFields
         action="create"
