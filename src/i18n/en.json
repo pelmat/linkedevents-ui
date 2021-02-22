@@ -475,5 +475,8 @@
 
     "login-warning": "Warning! You must",
     "login-warning1": "login",
-    "login-warning2": "to be able to submit or edit events!"
+    "login-warning2": "to be able to submit or edit events!",
+
+    "event-list-show": "Show events",
+    "event-list-hide": "Hide events"
 }

@@ -15,7 +15,7 @@ import {
     HelKeywordSelector,
 } from 'src/components/HelFormFields'
 import RecurringEvent from 'src/components/RecurringEvent'
-import {Button,Form, FormGroup, Collapse} from 'reactstrap';
+import {Button, Form, FormGroup, Collapse, UncontrolledCollapse} from 'reactstrap';
 import {mapKeywordSetToForm, mapLanguagesSetToForm} from '../../utils/apiDataMapping'
 import {setEventData, setData} from '../../actions/editor'
 import {get, isNull, pickBy} from 'lodash'
@@ -81,6 +81,7 @@ class FormFields extends React.Component {
             headerCourses: false,
             headerDescription: false,
             headerImage: false,
+            displayEvents: true,
         }
         
         this.handleOrganizationChange = this.handleOrganizationChange.bind(this)
@@ -126,6 +127,11 @@ class FormFields extends React.Component {
 
     showRecurringEventDialog() {
         this.setState({showRecurringEvent: !this.state.showRecurringEvent})
+    }
+
+    // Replace with more proper functionality - preferably something that will hide the button if event length == 0.
+    showEventList() {
+        this.setState({displayEvents: !this.state.displayEvents})
     }
 
     showNewEventDialog() {
@@ -448,8 +454,20 @@ class FormFields extends React.Component {
                             </div>
                         </div>
                         <div className={'new-events ' + (this.state.showNewEvents ? 'show' : 'hidden')}>
-                            { newEvents }
+                            <UncontrolledCollapse toggler='#events-list' defaultOpen>
+                                { newEvents }
+                            </UncontrolledCollapse>
                         </div>
+                        <Button 
+                            block 
+                            className='btn'
+                            id='events-list'
+                            onClick={() => this.showEventList()}>
+                            {this.state.displayEvents
+                                ? <FormattedMessage id='event-list-hide'/>
+                                : <FormattedMessage id='event-list-show'/>
+                            }
+                        </Button>
                         {this.state.showRecurringEvent &&
                             <RecurringEvent
                                 toggle={() => this.showRecurringEventDialog()}

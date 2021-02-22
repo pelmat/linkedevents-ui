@@ -516,5 +516,8 @@
 
     "login-warning": "Huom! Sinun täytyy",
     "login-warning1": "kirjautua sisään",
-    "login-warning2": "lisätäksesi tapahtuman!"
+    "login-warning2": "lisätäksesi tapahtuman!",
+
+    "event-list-show": "Näytä tapahtumat",
+    "event-list-hide": "Piilota tapahtumat"
 }
