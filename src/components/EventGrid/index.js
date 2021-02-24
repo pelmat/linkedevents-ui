@@ -79,7 +79,7 @@ const EventItem = (props) => {
 
     return (
         <div className="col-xs-12 col-md-6 col-lg-4" key={props.event['id']}>
-            <Link to={url}>
+            <Link className="event-item-link" to={url}>
                 <div className="event-item">
                     {isCancelled && getBadge('cancelled')}
                     {isPostponed && getBadge('postponed')}
