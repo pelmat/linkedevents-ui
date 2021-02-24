@@ -18,12 +18,5 @@
     ],
     "@babel/plugin-proposal-function-sent",
     "@babel/plugin-proposal-function-bind"
-  ],
-  "env": {
-    "production": {
-      "plugins": [
-        "@babel/runtime"
-      ]
-    }
-  }
+  ]
 }
