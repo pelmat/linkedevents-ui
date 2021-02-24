@@ -9,6 +9,7 @@
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-proposal-json-strings",
+    "@babel/plugin-transform-runtime",
     [
       "@babel/plugin-proposal-decorators",
       {
@@ -19,11 +20,6 @@
     "@babel/plugin-proposal-function-bind"
   ],
   "env": {
-    "development": {
-      "plugins": [
-        "@babel/plugin-transform-runtime"
-      ]
-    },
     "production": {
       "plugins": [
         "@babel/runtime"
