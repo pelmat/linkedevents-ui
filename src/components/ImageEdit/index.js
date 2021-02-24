@@ -329,9 +329,7 @@ class ImageEdit extends React.Component {
                     name='photographerName'
                     required={true}
                     defaultValue={this.state.image.photographerName}
-                    label={<FormattedMessage id={'photographer'}
-                        values={{maxLength: this.state.validation.photographerMaxLength}}
-                    />}
+                    label={this.context.intl.formatMessage({id: 'photographer'})}
                     validations={[VALIDATION_RULES.SHORT_STRING]}
                     maxLength={this.state.validation.photographerMaxLength}
                     onChange={this.handleChange}
