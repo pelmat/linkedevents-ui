@@ -1,20 +1,33 @@
 {
-  "presets": ["react", "env", "stage-0"],
-  "plugins": ["add-module-exports", "transform-object-assign"],
+  "presets": [
+    "@babel/preset-react",
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    "add-module-exports",
+    "@babel/plugin-transform-object-assign",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-json-strings",
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+    "@babel/plugin-proposal-function-sent",
+    "@babel/plugin-proposal-function-bind"
+  ],
   "env": {
     "development": {
       "plugins": [
-        ["react-transform", {
-          "transforms": [{
-            "transform": "react-transform-hmr",
-            "imports": ["react"],
-            "locals": ["module"]
-          }]
-        }]
+        "@babel/plugin-transform-runtime"
       ]
-  },
+    },
     "production": {
-        "plugins": []
+      "plugins": [
+        "@babel/runtime"
+      ]
     }
   }
 }
