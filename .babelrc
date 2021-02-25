@@ -4,19 +4,19 @@
     "@babel/preset-env"
   ],
   "plugins": [
-    "add-module-exports",
     "@babel/plugin-transform-object-assign",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-proposal-json-strings",
     "@babel/plugin-transform-runtime",
+    "@babel/plugin-transform-modules-commonjs",
+    "@babel/plugin-proposal-function-sent",
+    "@babel/plugin-proposal-function-bind",
     [
       "@babel/plugin-proposal-decorators",
       {
         "legacy": true
       }
-    ],
-    "@babel/plugin-proposal-function-sent",
-    "@babel/plugin-proposal-function-bind"
+    ]
   ]
 }
