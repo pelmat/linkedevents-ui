@@ -58,6 +58,11 @@ class EventPage extends React.Component {
             this.fetchEventData()
         }
 
+        // refresh event data when user changes to handle data behind permissions
+        if (prevProps.user !== this.props.user){
+            this.fetchEventData()
+        }
+
         if (publisherId && publisherId !== oldPublisherId) {
             client.get(`organization/${publisherId}`)
                 .then(response => this.setState({publisher: response.data}))
