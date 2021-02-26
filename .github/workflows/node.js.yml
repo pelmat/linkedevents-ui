@@ -30,17 +30,16 @@ jobs:
     - run: yarn test:ci
     - name: Making a test build
       run: yarn testing
-      with:
-        env:
-          api_base: ${{ secrets.API_BASE }}
-          client_id: ${{ secrets.CLIENT_ID }}
-          openid_audience: ${{ secrets.OPENID_AUDIENCE }}
-          openid_authority: ${{ secrets.OPENID_AUTHORITY }}
-          local_storage_user_expiry_time: ${{ secrets.LOCAL_STORAGE_USER_EXPIRY_TIME }}
-          nocache: ${{ secrets.NOCACHE }}
-          raven_id: ${{ secrets.RAVEN_ID }}
-          city_theme: ${{ secrets.CITY_THEME }}
-          show_cookie_bar: ${{ secrets.SHOW_COOKIE_BAR }}
+      env:
+        api_base: ${{ secrets.API_BASE }}
+        client_id: ${{ secrets.CLIENT_ID }}
+        openid_audience: ${{ secrets.OPENID_AUDIENCE }}
+        openid_authority: ${{ secrets.OPENID_AUTHORITY }}
+        local_storage_user_expiry_time: ${{ secrets.LOCAL_STORAGE_USER_EXPIRY_TIME }}
+        nocache: ${{ secrets.NOCACHE }}
+        raven_id: ${{ secrets.RAVEN_ID }}
+        city_theme: ${{ secrets.CITY_THEME }}
+        show_cookie_bar: ${{ secrets.SHOW_COOKIE_BAR }}
     - name: Running Codecov
       uses: codecov/codecov-action@v1
       with:
