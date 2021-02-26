@@ -25,8 +25,15 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-      env:
-        api_base: ${{ secrets.API_BASE }}
+    - run: export api_base="${{ secrets.API_BASE }}"
+    - run: export client_id="${{ secrets.API_BASE }}"
+    - run: export openid_audience="${{ secrets.API_BASE }}"
+    - run: export openid_authority="${{ secrets.API_BASE }}"
+    - run: export local_storage_user_expiry_time="${{ secrets.API_BASE }}"
+    - run: export nocache="${{ secrets.API_BASE }}"
+    - run: export raven_id="${{ secrets.API_BASE }}"
+    - run: export city_theme="${{ secrets.API_BASE }}"
+    - run: export show_cookie_bar="${{ secrets.API_BASE }}"
     - run: yarn
     - run: yarn testing
 
