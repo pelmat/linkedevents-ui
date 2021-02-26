@@ -20,7 +20,7 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@master
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
@@ -40,6 +40,5 @@ jobs:
         city_theme: ${{ secrets.CITY_THEME }}
         show_cookie_bar: ${{ secrets.SHOW_COOKIE_BAR }}
 
-    - uses: actions/checkout@master
     - uses: codecov/codecov-action@v1
  
