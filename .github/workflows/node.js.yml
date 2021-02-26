@@ -39,8 +39,7 @@ jobs:
         raven_id: ${{ secrets.RAVEN_ID }}
         city_theme: ${{ secrets.CITY_THEME }}
         show_cookie_bar: ${{ secrets.SHOW_COOKIE_BAR }}
-    
-    steps:
+
     - uses: actions/checkout@master
     - uses: codecov/codecov-action@v1
  
