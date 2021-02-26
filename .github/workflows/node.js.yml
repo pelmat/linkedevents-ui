@@ -28,4 +28,12 @@ jobs:
     - run: yarn
     - run: yarn testing
       env:
-        api_base: ${{ secrets.API_BASE}}
+        api_base: ${{ secrets.API_BASE }}
+        client_id: ${{ secrets.CLIENT_ID }}
+        openid_audience: ${{ secrets.OPENID_AUDIENCE }}
+        openid_authority: ${{ secrets.OPENID_AUTHORITY }}
+        local_storage_user_expiry_time: ${{ secrets.LOCAL_STORAGE_USER_EXPIRY_TIME }}
+        nocache: ${{ secrets.NOCACHE }}
+        raven_id: ${{ secrets.RAVEN_ID }}
+        city_theme: ${{ secrets.CITY_THEME }}
+        show_cookie_bar: ${{ secrets.SHOW_COOKIE_BAR }}
