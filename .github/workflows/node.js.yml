@@ -25,9 +25,16 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+        
+    - name: Installing dependencies
     - run: yarn
-    - run: yarn lint
-    - run: yarn test:ci
+
+    - name: Linting
+      run: yarn lint
+
+    - name: Running tests
+      run: yarn test:ci
+
     - name: Making a test build
       run: yarn testing
       env:
@@ -40,6 +47,7 @@ jobs:
         raven_id: ${{ secrets.RAVEN_ID }}
         city_theme: ${{ secrets.CITY_THEME }}
         show_cookie_bar: ${{ secrets.SHOW_COOKIE_BAR }}
+
     - name: Running Codecov
       uses: codecov/codecov-action@v1
       with:
